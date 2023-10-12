@@ -1,6 +1,7 @@
 <script>
   import { Button } from "flowbite-svelte";
   import { EuroSolid, ClockSolid } from "flowbite-svelte-icons";
+  import womanCall from "$lib/images/woman-call.jpg"
 </script>
 
 <section class="dark:bg-gray-900 rounded-xl mb-6 bg-gray-100">
@@ -9,7 +10,7 @@
   >
     <img
       class="w-full rounded-xl"
-      src="/src/lib/images/woman-call.jpg"
+      src={womanCall}
       alt="fuite-d-eau"
     />
     <div class="mt-4 md:mt-0">

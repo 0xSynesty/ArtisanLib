@@ -71,7 +71,7 @@
       <div class="sm:flex sm:items-center sm:justify-between">
         <a href="/" class="flex items-center mb-4 sm:mb-0">
           <img
-            src="/src/lib/images/logo.png"
+            src={logo}
             class="h-8 mr-3"
             alt="ArtisanLib LOGO"
           />
