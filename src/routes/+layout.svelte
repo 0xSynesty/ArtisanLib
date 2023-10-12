@@ -18,7 +18,7 @@
       <img
         src="/src/lib/images/logo.png"
         class="mr-3 h-6 sm:h-9"
-        alt="Flowbite Logo"
+        alt="ArtisanLib LOGO"
       />
       <span
         class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -72,7 +72,7 @@
           <img
             src="/src/lib/images/logo.png"
             class="h-8 mr-3"
-            alt="Flowbite Logo"
+            alt="ArtisanLib LOGO"
           />
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"

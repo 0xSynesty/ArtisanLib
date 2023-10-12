@@ -10,7 +10,7 @@
     <img
       class="w-full rounded-xl"
       src="/src/lib/images/woman-call.jpg"
-      alt="dashboard"
+      alt="fuite-d-eau"
     />
     <div class="mt-4 md:mt-0">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold dark:text-white text-oxford">
