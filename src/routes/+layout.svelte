@@ -33,7 +33,7 @@
         >Se connecter</Button
       >
       <Button
-        href="/signup"
+        href="/register"
         size="lg"
         class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
         >S'inscrire</Button
