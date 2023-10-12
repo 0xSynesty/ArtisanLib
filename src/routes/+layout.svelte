@@ -8,7 +8,8 @@
     NavHamburger,
     Button,
   } from "flowbite-svelte";
-  import { DarkMode } from "flowbite-svelte";
+  import { DarkMode } from "flowbite-svelte"
+  import logo from '$lib/images/logo.png'
 </script>
 
 <div class="relative h-[100px]">
@@ -16,7 +17,7 @@
     <DarkMode />
     <NavBrand href="/">
       <img
-        src="/src/lib/images/logo.png"
+        src={logo}
         class="mr-3 h-6 sm:h-9"
         alt="ArtisanLib LOGO"
       />
