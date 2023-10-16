@@ -1,13 +1,8 @@
-
-import jwt from 'jsonwebtoken'
 import { registerUser } from '$lib/usersdb.js'
-import { fail } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 
-
-export async function load({ cookies }) {
-    const authToken = cookies.get('authToken')
-    if (!authToken) return { clearUser: true }
-    return { clearUser: false }
+export function load({ locals }) {
+    if (locals.user) throw redirect(302, '/')
 }
 
 export const actions = {
@@ -26,9 +21,8 @@ export const actions = {
         if (roleFr !== 'artisan' && roleFr !== 'particulier') return fail(400, { error: 'Role invalide' })
         const user = await registerUser(email, password, roleFr)
         if (user.error) return fail(400, { error: user.error });
-        // const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' })
-        // cookies.set('authToken', token, { httpOnly: true, secure: true, sameSite: 'strict' })
-        return { success: "Le compte a bien été créé" }
+        // return { success: "Le compte a bien été créé" }
+        throw redirect(302, "/login?created=True")
     }
 }
 

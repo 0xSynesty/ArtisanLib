@@ -53,4 +53,14 @@ async function findUserByEmail(email) {
 }
 
 
-export { registerUser, findUserByEmail }
+async function findUserById(user_id) {
+    const result = await sql`
+        SELECT * FROM users_logs
+        WHERE user_id = ${user_id};
+    `
+    return result[0]
+}
+
+
+
+export { registerUser, findUserByEmail, findUserById }

@@ -1,10 +1,22 @@
 <script>import { Section, Register } from 'flowbite-svelte-blocks'
-    import { Button, Checkbox, Label, Input } from 'flowbite-svelte'
+    import { Button, Checkbox, Label, Input, Toast } from 'flowbite-svelte'
     import { enhance } from '$app/forms';
+    import { page } from '$app/stores'
+    import { CheckCircleSolid } from 'flowbite-svelte-icons';
     export let form;
 
+    $:creationConfirmation = ($page.url.searchParams.get('created') === "true")
 </script>
-    
+
+{#if creationConfirmation}
+<div class="m-auto flex justify-center">
+    <Toast color="green">
+        <CheckCircleSolid slot="icon"/>
+        <span class="ml-2">Votre compte a bien été créé</span>
+    </Toast>
+</div>
+{/if}
+
 <Section name="register">
     <Register href="/">
         {#if form?.error}

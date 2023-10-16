@@ -4,6 +4,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { SPICYTHINGY } from '$env/static/private'
 
+export function load({ locals }){
+    if (locals.user) throw redirect(302, '/')
+}
 export const actions = {
     default: async ({ cookies, request }) => {
         const data = await request.formData()
@@ -11,7 +14,6 @@ export const actions = {
         const password = data.get('password')
 
         const user = await findUserByEmail(email)
-        console.log(user)
         if (!user) return fail(400, { error: "Email ou mot de passe incorrect" })
         const passwordMatch = await bcrypt.compare(password, user.password_hash)
         if (!passwordMatch) return fail(400, { error: "Email ou mot de passe incorrect" })

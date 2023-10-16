@@ -10,10 +10,13 @@
   } from "flowbite-svelte";
   import { DarkMode } from "flowbite-svelte"
   import logo from '$lib/images/logo.png'
+  export let data
+
+  $:User = data?.user
 </script>
 
 <div class="relative h-[100px]">
-  <Navbar let:hidden let:toggle class="mb-2 text-oxford">
+  <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle">
     <DarkMode />
     <NavBrand href="/">
       <img
@@ -27,18 +30,35 @@
       >
     </NavBrand>
     <div class="flex md:order-2">
-      <Button
-        href="/login"
-        size="lg"
-        class="mr-2 text-black bg-azure hover:bg-royal hover:text-white transition-all"
-        >Se connecter</Button
-      >
-      <Button
-        href="/register"
-        size="lg"
-        class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
-        >S'inscrire</Button
-      >
+      {#if !User}
+        <Button
+          href="/login"
+          size="lg"
+          class="mr-2 text-black bg-azure hover:bg-royal hover:text-white transition-all"
+          >Se connecter</Button
+        >
+        <Button
+          href="/register"
+          size="lg"
+          class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
+          >S'inscrire</Button
+        >
+      {:else}
+        <div class="flex items-center mr-4 font-bold">
+          <div>
+            {User}
+          </div>
+        </div>
+        <form method="POST" action="/logout">
+          <Button
+            type="submit"
+            href=""
+            size="lg"
+            class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
+            >Se déconnecter</Button
+          >
+        </form>
+      {/if}
       <NavHamburger on:click={toggle} />
     </div>
     <NavUl {hidden} class="order-1 max-h-14">
