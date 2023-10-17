@@ -13,8 +13,8 @@
   $: role = data?.role
 </script>
 
-<div class="relative h-[100px]">
-  <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle">
+<div>
+  <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle h-[80px]">
     <DarkMode />
     <NavBrand href="/">
       <img
@@ -23,7 +23,7 @@
         alt="ArtisanLib LOGO"
       />
       <span
-        class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+        class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white"
         >Artisan'Lib</span
       >
     </NavBrand>
@@ -35,14 +35,14 @@
   </div>
 
   <footer
-    class="bg-white rounded-lg shadow dark:bg-gray-900 absolute w-full"
+    class="bg-white shadow dark:bg-gray-900 w-full"
   >
     <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
       <div class="sm:flex sm:items-center sm:justify-between">
         <a href="/" class="flex items-center mb-4 sm:mb-0">
           <img
             src={logo}
-            class="h-8 mr-3"
+            class="h-8 mr-3 filter dark:brightness-200"
             alt="ArtisanLib LOGO"
           />
           <span
@@ -74,10 +74,12 @@
 <style lang="postcss">
   footer {
     height: 100px;
+    min-height: 100px;
   }
   .content {
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 180px);
     max-width: 80%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
