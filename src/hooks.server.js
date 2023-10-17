@@ -19,7 +19,6 @@ export async function handle ({ event, resolve }) {
         }
     } else {
         event.locals.user = null
-        console.log("hooks, pas d'auth token")
     }
     return await resolve(event)
 }

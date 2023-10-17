@@ -3,16 +3,14 @@
   import {
     Navbar,
     NavBrand,
-    NavLi,
-    NavUl,
-    NavHamburger,
-    Button,
   } from "flowbite-svelte";
   import { DarkMode } from "flowbite-svelte"
   import logo from '$lib/images/logo.png'
+  import NavMenu from "$lib/NavMenu.svelte";
   export let data
 
-  $:User = data?.user
+  $:user = data?.user
+  $: role = data?.role
 </script>
 
 <div class="relative h-[100px]">
@@ -21,7 +19,7 @@
     <NavBrand href="/">
       <img
         src={logo}
-        class="mr-3 h-6 sm:h-9"
+        class="mr-3 h-6 sm:h-9 filter dark:brightness-200"
         alt="ArtisanLib LOGO"
       />
       <span
@@ -29,55 +27,7 @@
         >Artisan'Lib</span
       >
     </NavBrand>
-    <div class="flex md:order-2">
-      {#if !User}
-        <Button
-          href="/login"
-          size="lg"
-          class="mr-2 text-black bg-azure hover:bg-royal hover:text-white transition-all"
-          >Se connecter</Button
-        >
-        <Button
-          href="/register"
-          size="lg"
-          class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
-          >S'inscrire</Button
-        >
-      {:else}
-        <div class="flex items-center mr-4 font-bold">
-          <div>
-            {User}
-          </div>
-        </div>
-        <form method="POST" action="/logout">
-          <Button
-            type="submit"
-            href=""
-            size="lg"
-            class="text-white bg-orange hover:bg-royal hover:text-white transition-all"
-            >Se déconnecter</Button
-          >
-        </form>
-      {/if}
-      <NavHamburger on:click={toggle} />
-    </div>
-    <NavUl {hidden} class="order-1 max-h-14">
-      <NavLi
-        href="/about"
-        class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
-        >Mentions légales</NavLi
-      >
-      <NavLi
-        href="/services"
-        class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
-        >Nos services</NavLi
-      >
-      <NavLi
-        href="/pricing"
-        class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
-        >Tarifs</NavLi
-      >
-    </NavUl>
+    <NavMenu {hidden} {toggle} {user} {role}/>
   </Navbar>
 
   <div class="content px-20 py-6 dark:text-white">
@@ -104,7 +54,7 @@
           class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
         >
           <li>
-            <a href="/about" class="mr-4 hover:underline md:mr-6"
+            <a href="/legals" class="mr-4 hover:underline md:mr-6"
               >Mentions Légales</a
             >
           </li>
@@ -112,14 +62,11 @@
             <a href="/contact" class="hover:underline">Contact</a>
           </li>
         </ul>
-      </div>
-      <hr
-        class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"
-      />
-      <span
-        class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
+        <span
+        class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
         >© 2023 <a href="/" class="hover:underline">Artisan'Lib</a>.</span
       >
+      </div>
     </div>
   </footer>
 </div>
