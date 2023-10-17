@@ -8,6 +8,9 @@ const config = {
 
   theme: {
     extend: {
+      fontFamily: {
+        'Poppins': ['Poppins'],
+    },
       colors: {
           "royal": "#072B73ff",
           "oxford": "#012340ff",

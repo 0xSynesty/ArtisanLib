@@ -64,7 +64,7 @@
 
 <style lang="postcss">
   .grid > div {
-    @apply m-10 p-8 rounded-xl border-2 border-azure border-dashed bg-slate-50;
+    @apply m-10 p-8 rounded-xl border border-oxford bg-slate-50 dark:bg-slate-300 dark:text-oxford dark:border-oxford;
     @apply shadow-xl;
   }
 
