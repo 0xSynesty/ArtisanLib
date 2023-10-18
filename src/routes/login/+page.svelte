@@ -5,12 +5,12 @@
     import { CheckCircleSolid } from 'flowbite-svelte-icons';
     export let form;
 
-    $:creationConfirmation = ($page.url.searchParams.get('created') === "true")
+    $:creationConfirmation = ($page.url.searchParams.get('created') === "True")
 </script>
 
 {#if creationConfirmation}
-<div class="m-auto flex justify-center">
-    <Toast color="green">
+<div class="flex justify-center text-center">
+    <Toast color="green" divClass="w-auto border-green-400 border p-4" contentClass="mr-4">
         <CheckCircleSolid slot="icon"/>
         <span class="ml-2">Votre compte a bien été créé</span>
     </Toast>
