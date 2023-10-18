@@ -64,7 +64,7 @@
             >Trouver un artisan</NavLi
         >
         <NavLi
-            href="/profile"
+            href="/customer/profile"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Mon profil</NavLi
         >
@@ -77,7 +77,7 @@
 {:else if user && role === "craftsman"}
     <NavUl {hidden} class="order-1 max-h-14">
         <NavLi
-            href="/profile"
+            href="/craftsman/profile"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Mon profil professionnel</NavLi
         >

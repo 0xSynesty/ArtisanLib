@@ -4,16 +4,27 @@
     Navbar,
     NavBrand,
   } from "flowbite-svelte";
-  import { DarkMode } from "flowbite-svelte"
+  import { DarkMode, Alert } from "flowbite-svelte"
+  import { InfoCircleSolid } from 'flowbite-svelte-icons'
   import logo from '$lib/images/logo.png'
   import NavMenu from "$lib/NavMenu.svelte";
   export let data
 
-  $:user = data?.user
+  $: user = data?.user
   $: role = data?.role
+  $: hasUpdatedDetails = data?.hasUpdatedDetails
 </script>
 
 <div>
+  {#if !hasUpdatedDetails}
+    <Alert type="warning" class="bg-slate-200 dark:bg-slate-200 dark:text-red-800 rounded-none border-b-2" color="red">
+      <InfoCircleSolid slot="icon" />
+      <span class="text-base">
+        Veuillez <a href="/craftsman/profile" class="font-bold underline">compléter votre profil</a> pour pouvoir accéder à toutes les
+        fonctionnalités du site.
+      </span>
+    </Alert>
+  {/if}
   <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle h-[80px]">
     <DarkMode />
     <NavBrand href="/">

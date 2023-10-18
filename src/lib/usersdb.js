@@ -3,7 +3,7 @@ import postgres from 'postgres';
 import bcrypt from 'bcryptjs';
 
 const sql = postgres(DATABASE_URL_ROOT + "users", {
-	ssl: 'require'
+    ssl: 'require'
 });
 
 const rolesTrad = {
@@ -61,6 +61,66 @@ async function findUserById(user_id) {
     return result[0]
 }
 
+async function updateCraftsmanDetails({ user_id, lastname, firstname, profession, description, siret, address, parsedCoords }) {
+    const result = await sql`
+    INSERT INTO craftsman_detail (
+        user_id,
+        lastname,
+        firstname,
+        profession,
+        description,
+        siret,
+        address,
+        address_coordinates
+    ) VALUES (
+        ${user_id},
+        ${lastname},
+        ${firstname},
+        ${profession},
+        ${description},
+        ${siret},
+        ${address},
+        ST_SetSRID(ST_Point(${parsedCoords[0]}, ${parsedCoords[1]}), 4326)
+    ) ON CONFLICT (user_id) DO UPDATE SET
+        lastname = EXCLUDED.lastname,
+        firstname = EXCLUDED.firstname,
+        profession = EXCLUDED.profession,
+        description = EXCLUDED.description,
+        siret = EXCLUDED.siret,
+        address = EXCLUDED.address,
+        address_coordinates = ST_SetSRID(ST_Point(${parsedCoords[0]}, ${parsedCoords[1]}), 4326);
+    `
+    return result[0]
+}
+
+async function getCraftsmanDetails(user_id) {
+    const result = await sql`
+    SELECT
+        user_id,
+        lastname,
+        firstname,
+        profession,
+        description,
+        siret,
+        address,
+        ST_AsGeoJSON(address_coordinates) AS address_geometry
+    FROM
+        craftsman_detail
+    WHERE
+        user_id = ${user_id};
+    `
+    return result[0]
+}
+
+async function hasCraftsmanUpdatedDetails(user_id) {
+    const result = await sql`
+        SELECT user_id
+        FROM craftsman_detail
+        WHERE user_id = ${user_id}
+        LIMIT 1;
+    `
+    return result.length > 0;
+}
 
 
-export { registerUser, findUserByEmail, findUserById }
+export { registerUser, findUserByEmail, findUserById, updateCraftsmanDetails, hasCraftsmanUpdatedDetails, getCraftsmanDetails }
