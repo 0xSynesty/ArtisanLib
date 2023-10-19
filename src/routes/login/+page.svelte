@@ -49,10 +49,6 @@
             <span>Votre mot de passe</span>
             <Input type="password" name="password" placeholder="••••••••" required />
         </Label>
-        <div class="flex items-start">
-            <Checkbox>Se souvenir de moi</Checkbox>
-            <a href="/" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500">Mot de passe oublié ?</a>
-        </div>
         <Button type="submit" class="bg-orange">Se connecter</Button>
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
             Pas encore de compte ? <a href="/" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Créez-en un maintenant</a>
