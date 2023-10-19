@@ -35,7 +35,7 @@
                     Créer un compte
                 </h3>
                 <Label class="space-y-2">
-                    <span>Addresse e-mail</span>
+                    <span>Adresse e-mail</span>
                     <Input
                         type="email"
                         name="email"

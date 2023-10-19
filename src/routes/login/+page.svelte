@@ -42,7 +42,7 @@
         <form class="flex flex-col space-y-6" method="POST" use:enhance>
         <h3 class="text-xl font-medium text-gray-900 dark:text-white p-0">Connexion</h3>
         <Label class="space-y-2">
-            <span>Votre addresse e-mail</span>
+            <span>Votre adresse e-mail</span>
             <Input type="email" name="email" placeholder="jean-michelin@gmail.com" required />
         </Label>
         <Label class="space-y-2">
