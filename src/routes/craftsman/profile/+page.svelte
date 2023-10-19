@@ -80,7 +80,7 @@
                 <Input
                     type="text"
                     name="lastname"
-                    placeholder="Votre prénom"
+                    placeholder="Votre nom"
                     value={data?.details?.lastname}
                     required
                 />
@@ -90,7 +90,7 @@
                 <Input
                     type="text"
                     name="firstname"
-                    placeholder="Votre nom"
+                    placeholder="Votre prénom"
                     value={data?.details?.firstname}
                     required
                 />
