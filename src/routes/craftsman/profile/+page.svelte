@@ -13,7 +13,7 @@
         { value: "electricien", name: "Electricien" },
         { value: "plombier", name: "Plombier" },
     ];
-    let addressSuggestions = [];
+    let addressSuggestions = [{ display_name: "", geometry: {}}];
     let address = addressSuggestions[0];
     let addressGeometryString;
     let isaddressFocused = false;
@@ -48,7 +48,7 @@
             }));
     };
 
-    if (data) {
+    if (data.details) {
         selected_prof = data.details.profession;
         address = {
             display_name: data.details.address,
@@ -81,7 +81,7 @@
                     type="text"
                     name="lastname"
                     placeholder="Votre prénom"
-                    value={data?.details.lastname}
+                    value={data?.details?.lastname}
                     required
                 />
             </div>
@@ -91,7 +91,7 @@
                     type="text"
                     name="firstname"
                     placeholder="Votre nom"
-                    value={data?.details.firstname}
+                    value={data?.details?.firstname}
                     required
                 />
             </div>
@@ -110,9 +110,9 @@
                 <Input
                     type="text"
                     name="siret"
-                    placeholder=""
+                    placeholder="Ex : 553 279 879 00672"
                     required
-                    value={data?.details.siret}
+                    value={data?.details?.siret}
                 />
             </div>
             <div class="col-span-2">
@@ -120,7 +120,7 @@
                 <Input
                     type="text"
                     name="address"
-                    placeholder=""
+                    placeholder="Renseignez votre addresse (pas besoin d'être très précis)"
                     bind:value={address.display_name}
                     on:keydown={handleaddress}
                     on:focus={() => (isaddressFocused = true)}
@@ -158,7 +158,7 @@
                     placeholder="Décrivez rapidement votre parcours, vos expériences et qui vous-êtes"
                     rows="4"
                     name="description"
-                    value={data?.details.description}
+                    value={data?.details?.description}
                     required
                 />
             </div>
