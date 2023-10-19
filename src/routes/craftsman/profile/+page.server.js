@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit'
+import { redirect, fail } from '@sveltejs/kit'
 import { updateCraftsmanDetails, getCraftsmanDetails } from '$lib/usersdb.js'
 
 export const load = async ({ locals }) => {
@@ -11,7 +11,7 @@ export const load = async ({ locals }) => {
 export const actions = {
     default: async ({ request, locals }) => {
         const data = await request.formData()
-        // retrieve lastname, firstname, profession, description, siret, address, address-geometry
+
         const lastname = data.get('lastname')
         const firstname = data.get('firstname')
         const profession = data.get('profession')
@@ -20,7 +20,10 @@ export const actions = {
         const address = data.get('address')
 
         const addressGeometry = data.get('address-geometry')
-        const parsedCoords = JSON.parse(addressGeometry).coordinates
+        const parsedCoords = JSON.parse(addressGeometry)
+        if (!parsedCoords){
+            return fail(400, { error: 'Veuillez renseigner une adresse valide en utilisant les suggestions' })
+        }
         
         const details = await updateCraftsmanDetails({
             user_id: locals.user_id,
@@ -30,7 +33,7 @@ export const actions = {
             description,
             siret,
             address,
-            parsedCoords
+            parsedCoords: parsedCoords.coordinates
         })
 
         throw redirect(302, "/craftsman/profile?updated=True")

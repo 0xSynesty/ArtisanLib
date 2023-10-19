@@ -1,11 +1,20 @@
 <script>
-    import { Section } from "flowbite-svelte-blocks";
     import { enhance } from "$app/forms";
     import { CheckCircleSolid } from "flowbite-svelte-icons";
-    import { page } from '$app/stores'
-    
-    import { Label, Input, Button, Select, Textarea, Toast } from "flowbite-svelte";
+    import { page } from "$app/stores";
+    import Geocoder from "$lib/Geocoder.svelte";
+
+    import {
+        Label,
+        Input,
+        Button,
+        Select,
+        Textarea,
+        Toast,
+    } from "flowbite-svelte";
     export let data;
+    export let form;
+
     let selected_prof;
     const professions = [
         { value: "serrurier", name: "Serrurier" },
@@ -13,53 +22,10 @@
         { value: "electricien", name: "Electricien" },
         { value: "plombier", name: "Plombier" },
     ];
-    let addressSuggestions = [{ display_name: "", geometry: {}}];
-    let address = addressSuggestions[0];
+
+    let address
     let addressGeometryString;
-    let isaddressFocused = false;
-
-    let timeoutId;
-    const handleaddress = async (e) => {
-        if (e.target.value.length < 3) {
-            addressSuggestions = [];
-            return;
-        }
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(async () => {
-            if (isaddressFocused) {
-                addressSuggestions = await getIGNSuggestions(
-                    e.target.value
-                );
-            }
-        }, 500);
-    };
-
-    // const getNominatimSuggestions = async (addressValue) => {
-    //     addressSuggestions = [];
-    //     const response = await fetch(
-    //         `https://nominatim.openstreetmap.org/search?q=${addressValue}&format=geojson&layer=address&addressdetails=0&countrycodes=fr`
-    //     );
-    //     const data = await response.json();
-    //     return data.features
-    //         .filter((feature) => feature.properties.osm_type === "way")
-    //         .map((wayFeature) => ({
-    //             display_name: wayFeature.properties.display_name,
-    //             geometry: wayFeature.geometry,
-    //         }));
-    // };
-
-    const getIGNSuggestions = async (addressValue) => {
-        addressSuggestions = [];
-        const response = await fetch(
-            `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${addressValue}&limit=10&returntruegeometry=false`
-        );
-        const data = await response.json();
-        return data.features
-            .map((wayFeature) => ({
-                display_name: wayFeature.properties.label,
-                geometry: wayFeature.geometry,
-            }));
-    };
+    let isAddressFocused;
 
     if (data.details) {
         selected_prof = data.details.profession;
@@ -72,18 +38,32 @@
         console.log("no data");
     }
 
-    $: detailsUpdateConfirmation = ($page.url.searchParams.get('updated') === "True")
+    $: detailsUpdateConfirmation =
+        $page.url.searchParams.get("updated") === "True";
 </script>
-{#if detailsUpdateConfirmation}
-<div class="flex justify-center text-center mb-6">
-    <Toast color="green" divClass="w-auto border-green-400 border p-4" contentClass="mr-4">
-        <CheckCircleSolid slot="icon"/>
-        <span class="ml-2">Votre profil a bien été mis à jour</span>
-    </Toast>
-</div>
+
+{#if detailsUpdateConfirmation && !form?.error}
+    <div class="flex justify-center text-center mb-6">
+        <Toast
+            color="green"
+            divClass="w-auto border-green-400 border p-4"
+            contentClass="mr-4"
+        >
+            <CheckCircleSolid slot="icon" />
+            <span class="ml-2">Votre profil a bien été mis à jour</span>
+        </Toast>
+    </div>
 {/if}
-<!-- <Section name="crudcreateform" sectionClass="p-0 relative" divClass="p-0"> -->
-    <div class="relative">
+{#if form?.error}
+    <div
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6"
+        role="alert"
+    >
+        <strong class="font-bold">Erreur :</strong>
+        <span class="block sm:inline">{form.error}</span>
+    </div>
+{/if}
+<div class="relative">
     <h1 class="mb-4 text-xl font-bold">Mon profil Artisan</h1>
 
     <form method="POST" use:enhance>
@@ -129,7 +109,8 @@
                 />
             </div>
             <div class="col-span-2">
-                <Label for="address" class="mb-2 w-full">Addresse</Label>
+            <Geocoder bind:address bind:isAddressFocused bind:addressGeometryString/>
+                <!-- <Label for="address" class="mb-2 w-full">Addresse</Label>
                 <Input
                     type="text"
                     name="address"
@@ -153,7 +134,7 @@
                     {#each addressSuggestions as addressSuggestion}
                         {#if addressSuggestion.display_name !== ""}
                             <button
-                                class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full  text-left border-b border-slate-500 p-2 rounded"
+                                class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full text-left border-b border-slate-500 p-2 rounded"
                                 on:click|stopPropagation={() => {
                                     address = addressSuggestion;
                                     addressGeometryString = JSON.stringify(
@@ -164,7 +145,7 @@
                             >
                         {/if}
                     {/each}
-                </div>
+                </div> -->
             </div>
             <div class="sm:col-span-2">
                 <Label for="description" class="mb-2">Votre description</Label>
@@ -179,8 +160,9 @@
             </div>
         </div>
         <div class="text-center mt-6">
-        <Button type="submit" class="bg-orange">Sauvegarder mon profil</Button>
+            <Button type="submit" class="bg-orange"
+                >Sauvegarder mon profil</Button
+            >
         </div>
     </form>
-<!-- </Section> -->
 </div>
