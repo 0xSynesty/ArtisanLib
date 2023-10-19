@@ -27,23 +27,36 @@
         clearTimeout(timeoutId);
         timeoutId = setTimeout(async () => {
             if (isaddressFocused) {
-                addressSuggestions = await getNominatimSuggestions(
+                addressSuggestions = await getIGNSuggestions(
                     e.target.value
                 );
             }
         }, 500);
     };
 
-    const getNominatimSuggestions = async (addressValue) => {
+    // const getNominatimSuggestions = async (addressValue) => {
+    //     addressSuggestions = [];
+    //     const response = await fetch(
+    //         `https://nominatim.openstreetmap.org/search?q=${addressValue}&format=geojson&layer=address&addressdetails=0&countrycodes=fr`
+    //     );
+    //     const data = await response.json();
+    //     return data.features
+    //         .filter((feature) => feature.properties.osm_type === "way")
+    //         .map((wayFeature) => ({
+    //             display_name: wayFeature.properties.display_name,
+    //             geometry: wayFeature.geometry,
+    //         }));
+    // };
+
+    const getIGNSuggestions = async (addressValue) => {
         addressSuggestions = [];
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${addressValue}&format=geojson&layer=address&addressdetails=0&countrycodes=fr`
+            `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${addressValue}&limit=10&returntruegeometry=false`
         );
         const data = await response.json();
         return data.features
-            .filter((feature) => feature.properties.osm_type === "way")
             .map((wayFeature) => ({
-                display_name: wayFeature.properties.display_name,
+                display_name: wayFeature.properties.label,
                 geometry: wayFeature.geometry,
             }));
     };
@@ -138,16 +151,18 @@
                         : "hidden"}
                 >
                     {#each addressSuggestions as addressSuggestion}
-                        <button
-                            class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full  text-left border-b border-slate-500 p-2 rounded"
-                            on:click|stopPropagation={() => {
-                                address = addressSuggestion;
-                                addressGeometryString = JSON.stringify(
-                                    addressSuggestion.geometry
-                                );
-                                addressSuggestions = [];
-                            }}>{addressSuggestion.display_name}</button
-                        >
+                        {#if addressSuggestion.display_name !== ""}
+                            <button
+                                class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full  text-left border-b border-slate-500 p-2 rounded"
+                                on:click|stopPropagation={() => {
+                                    address = addressSuggestion;
+                                    addressGeometryString = JSON.stringify(
+                                        addressSuggestion.geometry
+                                    );
+                                    addressSuggestions = [];
+                                }}>{addressSuggestion.display_name}</button
+                            >
+                        {/if}
                     {/each}
                 </div>
             </div>
