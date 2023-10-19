@@ -25,7 +25,6 @@
 
     let address
     let addressGeometryString;
-    let isAddressFocused;
 
     if (data.details) {
         selected_prof = data.details.profession;
@@ -109,43 +108,7 @@
                 />
             </div>
             <div class="col-span-2">
-            <Geocoder bind:address bind:isAddressFocused bind:addressGeometryString/>
-                <!-- <Label for="address" class="mb-2 w-full">Addresse</Label>
-                <Input
-                    type="text"
-                    name="address"
-                    placeholder="Renseignez votre addresse (pas besoin d'être très précis)"
-                    bind:value={address.display_name}
-                    on:keydown={handleaddress}
-                    on:focus={() => (isaddressFocused = true)}
-                    autocomplete="off"
-                    required
-                />
-                <input
-                    type="hidden"
-                    name="address-geometry"
-                    bind:value={addressGeometryString}
-                />
-                <div
-                    class={isaddressFocused && addressSuggestions.length
-                        ? "absolute rounded bg-slate-200  text-black w-full"
-                        : "hidden"}
-                >
-                    {#each addressSuggestions as addressSuggestion}
-                        {#if addressSuggestion.display_name !== ""}
-                            <button
-                                class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full text-left border-b border-slate-500 p-2 rounded"
-                                on:click|stopPropagation={() => {
-                                    address = addressSuggestion;
-                                    addressGeometryString = JSON.stringify(
-                                        addressSuggestion.geometry
-                                    );
-                                    addressSuggestions = [];
-                                }}>{addressSuggestion.display_name}</button
-                            >
-                        {/if}
-                    {/each}
-                </div> -->
+                <Geocoder bind:address bind:addressGeometryString/>
             </div>
             <div class="sm:col-span-2">
                 <Label for="description" class="mb-2">Votre description</Label>
