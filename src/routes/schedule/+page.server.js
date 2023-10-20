@@ -9,7 +9,6 @@ export const load = async ({ locals, url }) => {
     }
     const craftsmanId = url.searchParams.get('craftsmanId')
     const address = url.searchParams.get('address')
-    console.log(craftsmanId, address)
     const craftsmanDetails = await getCraftsmanDetails(craftsmanId)
     return {
       craftsmanDetails,

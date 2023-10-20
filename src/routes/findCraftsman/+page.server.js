@@ -17,7 +17,6 @@ export const load = async ({ locals, url }) => {
   let coordsParsed
   if (url.searchParams.get('coordinates')) {
     coordsParsed = JSON.parse(url.searchParams.get('coordinates')).coordinates
-    console.log('coords found in params : ', coordsParsed)
   } else
   {
     coordsParsed = coordsStr.split(',').map(coordinate => parseFloat(coordinate.trim()));

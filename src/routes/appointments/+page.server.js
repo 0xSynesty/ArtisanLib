@@ -16,7 +16,6 @@ export const load = async ({ locals }) => {
 
   export const actions = {
     validate: async ({ request }) => {
-        console.log('')
         const appointmentId = (await request.formData()).get('id')
         validateAppointment(appointmentId)
         // throw redirect(302, "/appointmentConfirmed")

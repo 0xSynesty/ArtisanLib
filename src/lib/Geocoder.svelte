@@ -20,8 +20,6 @@
         timeoutId = setTimeout(async () => {
             if (isAddressFocused) {
                 addressSuggestions = await getIGNSuggestions(e.target.value);
-            } else {
-                console.log('addr not focused')
             }
         }, 500);
     };
@@ -31,7 +29,6 @@
             `https://wxs.ign.fr/essentiels/geoportail/geocodage/rest/0.1/search?q=${addressValue}&limit=10&returntruegeometry=false`
         );
         const data = await response.json();
-        console.log(data)
         if (data)
             return data.features.map((wayFeature) => ({
                 display_name: wayFeature.properties.label,

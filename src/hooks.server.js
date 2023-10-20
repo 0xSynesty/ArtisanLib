@@ -17,9 +17,7 @@ export async function handle ({ event, resolve }) {
 
                 if (userResult.role === 'craftsman') {
                     if (!event.cookies.get('hasUpdatedDetails') || event.cookies.get('hasUpdatedDetails') === 'false') {
-                        // console.log("checked cookie and no details found, checking details")
                         const hasUpdatedDetails = await hasCraftsmanUpdatedDetails(id)
-                        // console.log("hooks logging hasupd", hasUpdatedDetails)
                         event.locals.hasUpdatedDetails = hasUpdatedDetails
                         event.cookies.set('hasUpdatedDetails', hasUpdatedDetails, { maxAge: 60 * 60 * 2})
                     } else {

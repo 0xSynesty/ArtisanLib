@@ -148,8 +148,6 @@ async function getCraftsmenWithinBuffer(coordsParsed) {
     ORDER BY
         distance;
 `
-
-    console.log(coordsParsed)
     return result
 }
 
