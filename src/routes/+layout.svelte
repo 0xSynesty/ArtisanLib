@@ -25,7 +25,7 @@
       </span>
     </Alert>
   {/if}
-  <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle h-[80px]">
+  <Navbar let:hidden let:toggle class="mb-2 text-oxford align-middle h-[80px] bg-slate-200">
     <DarkMode />
     <NavBrand href="/">
       <img
