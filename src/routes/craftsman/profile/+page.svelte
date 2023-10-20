@@ -108,6 +108,7 @@
                 />
             </div>
             <div class="col-span-2">
+                <Label for="address" class="mb-2">Votre adresse</Label>
                 <Geocoder bind:address bind:addressGeometryString/>
             </div>
             <div class="sm:col-span-2">

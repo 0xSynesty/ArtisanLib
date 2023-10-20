@@ -1,12 +1,14 @@
 <script>
-    import { Label, Input } from "flowbite-svelte";
-
+    import { Input } from "flowbite-svelte";
+    import { createEventDispatcher } from "svelte";
     export let addressGeometryString;
     let isAddressFocused = false;
     let timeoutId;
     let addressSuggestions = [{ display_name: "", geometry: {} }];
     export let address = addressSuggestions[0];
+    export let placeholder = "Renseignez votre addresse";
 
+    const dispatch = createEventDispatcher();
     
     const handleaddress = async (e) => {
         addressGeometryString = false;
@@ -22,7 +24,6 @@
                 console.log('addr not focused')
             }
         }, 500);
-        console.log(addressSuggestions)
     };
     const getIGNSuggestions = async (addressValue) => {
         addressSuggestions = [];
@@ -38,12 +39,11 @@
             }));
     };
 </script>
-
-<Label for="address" class="mb-2 w-full">Addresse</Label>
+<div class="relative m-auto">
 <Input
     type="text"
     name="address"
-    placeholder="Renseignez votre addresse (pas besoin d'être très précis)"
+    {placeholder}
     bind:value={address.display_name}
     on:keydown={handleaddress}
     on:focus={() => (isAddressFocused = true)}
@@ -55,23 +55,26 @@
     name="address-geometry"
     bind:value={addressGeometryString}
 />
+
 <div
     class={isAddressFocused && addressSuggestions.length
-        ? "absolute rounded bg-slate-200  text-black w-full"
+        ? "absolute rounded bg-slate-200  text-black w-full z-[9999]"
         : "hidden"}
 >
     {#each addressSuggestions as addressSuggestion}
         {#if addressSuggestion.display_name !== ""}
             <button
                 class="hover:cursor-pointer hover:transition-[background-color] hover:bg-slate-400 block w-full text-left border-b border-slate-500 p-2 rounded"
-                on:click|stopPropagation={() => {
+                on:click={() => {
                     address = addressSuggestion;
                     addressGeometryString = JSON.stringify(
                         addressSuggestion.geometry
                     );
                     addressSuggestions = [];
+                    dispatch('addressSelected')
                 }}>{addressSuggestion.display_name}</button
             >
         {/if}
     {/each}
+</div>
 </div>

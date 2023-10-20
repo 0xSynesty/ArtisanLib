@@ -122,5 +122,109 @@ async function hasCraftsmanUpdatedDetails(user_id) {
     return result.length > 0;
 }
 
+async function getCraftsmenWithinBuffer(coordsParsed) {
+    const result = await sql`
+    SELECT
+        user_id,
+        lastname,
+        firstname,
+        profession,
+        description,
+        siret,
+        address,
+        ST_AsGeoJSON(ST_Transform(address_coordinates, 4326)) as geometry,
+        ST_Distance(
+            ST_Transform(address_coordinates, 3857),
+            ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857)
+        ) as distance
+    FROM
+        craftsman_detail
+    WHERE
+        ST_DWithin(
+            ST_Transform(address_coordinates, 3857),
+            ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857),
+            5000
+        )
+    ORDER BY
+        distance;
+`
 
-export { registerUser, findUserByEmail, findUserById, updateCraftsmanDetails, hasCraftsmanUpdatedDetails, getCraftsmanDetails }
+    console.log(coordsParsed)
+    return result
+}
+
+
+async function createPendingAppointment(craftsmanId, customerAddress, customerEmail, appointmentDate, appointmentType) {
+    const result = await sql`
+    INSERT INTO craftsman_appointments (
+        user_id,
+        customer_address,
+        customer_email,
+        appointment_date,
+        appointment_type
+    ) VALUES (
+        ${craftsmanId},
+        ${customerAddress},
+        ${customerEmail},
+        ${appointmentDate},
+        ${appointmentType}
+    )
+        RETURNING appointment_id;
+    `;
+    return result[0].appointment_id;
+}
+
+async function getAppointments(craftsmanId) {
+    const result = await sql`
+    SELECT
+        appointment_id,
+        user_id,
+        customer_address,
+        customer_email,
+        appointment_date,
+        status,
+        appointment_type
+    FROM
+        craftsman_appointments
+    WHERE
+        user_id = ${craftsmanId};
+`;
+    return result;
+}
+
+
+async function deleteAppointment(appointmentId) {
+    const result = await sql`
+    DELETE FROM
+        craftsman_appointments
+    WHERE
+        appointment_id = ${appointmentId};
+`;
+    return result;
+}
+
+async function validateAppointment(appointmentId) {
+    const result = await sql`
+    UPDATE
+        craftsman_appointments
+    SET
+        status = 'accepted'
+    WHERE
+        appointment_id = ${appointmentId};
+`;
+    return result;
+}
+
+export {
+    registerUser,
+    findUserByEmail,
+    findUserById,
+    updateCraftsmanDetails,
+    hasCraftsmanUpdatedDetails,
+    getCraftsmanDetails,
+    getCraftsmenWithinBuffer,
+    createPendingAppointment,
+    getAppointments,
+    deleteAppointment,
+    validateAppointment
+}
