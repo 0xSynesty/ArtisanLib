@@ -2,6 +2,14 @@
   import { Button } from "flowbite-svelte";
   import { EuroSolid, ClockSolid } from "flowbite-svelte-icons";
   import womanCall from "$lib/images/woman-call.jpg"
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+
+  const handleRedirection = () => {
+    if (!$page.data.user) goto('/login')
+    else if ($page.data.role === 'customer') goto('/findCraftsman');
+    else goto('/');
+  }
 </script>
 
 <section class="dark:bg-gray-900 rounded-xl mb-6 bg-gray-100">
@@ -24,6 +32,7 @@
       </p>
       <Button
         class="text-white bg-orange hover:bg-royal transition-all"
+        on:click={handleRedirection}
       >
         Demander de l'aide
         <svg
