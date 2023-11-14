@@ -69,7 +69,7 @@
             >Mon profil</NavLi
         >
         <NavLi
-            href="/customerAppointments"
+            href="/customer/appointments"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Mes rendez-vous</NavLi
         >
@@ -87,7 +87,7 @@
             >Agenda</NavLi
         >
         <NavLi
-            href="/craftsmanAppointments"
+            href="/craftsman/appointments"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Mes rendez-vous</NavLi
         >
