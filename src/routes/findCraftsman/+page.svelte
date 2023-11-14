@@ -23,6 +23,7 @@
     onDestroy(async () => {
         if(map) {
             map.remove();
+            map = undefined
         }
     });
 
@@ -36,11 +37,17 @@
     }
 
     let markers = [];
+    const markerSize = 38
     const updateMarkers = (craftsmen) => {
         markers.forEach((marker) => marker.remove());
         craftsmen.forEach((craftsman) => {
             const coords = JSON.parse(craftsman.geometry).coordinates;
-            craftsman.marker = L.marker(coords.reverse()).addTo(map);
+            craftsman.marker = L.marker(coords.reverse(), {icon: L.icon({
+                iconUrl: '/marker.png',
+            iconSize: [markerSize, markerSize],
+            iconAnchor: [markerSize / 2, markerSize],
+            popupAnchor: [0, -(markerSize)]
+          })}).addTo(map);
             craftsman.marker.bindPopup(
                 `<b class="font-bold">${craftsman.firstname} ${craftsman.lastname}</b>
                 <span class="block text-gray-400">${craftsman.address}</span>
@@ -98,4 +105,8 @@
 
 <style>
     @import "leaflet/dist/leaflet.css";
+
+    #craftsman {
+        scrollbar-gutter: stable;
+    }
 </style>
