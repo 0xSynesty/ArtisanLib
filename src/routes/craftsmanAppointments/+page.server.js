@@ -1,6 +1,5 @@
-import { getCraftsmanDetails } from '$lib/usersdb.js'
-import { fail, redirect } from '@sveltejs/kit'
-import { getAppointments, findUserByEmail, validateAppointment, deleteAppointment } from '$lib/usersdb.js'
+import { redirect } from '@sveltejs/kit'
+import { getCraftsmanAppointments, findUserByEmail, validateAppointment, deleteAppointment } from '$lib/usersdb.js'
 
 export const load = async ({ locals }) => {
     // redirect user if not logged in
@@ -8,7 +7,7 @@ export const load = async ({ locals }) => {
       throw redirect(302, '/')
     }
     const craftsmanId = (await findUserByEmail(locals.user)).user_id
-    const appointments = await getAppointments(craftsmanId)
+    const appointments = await getCraftsmanAppointments(craftsmanId)
     return {
       appointments
     }

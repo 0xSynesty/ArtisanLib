@@ -172,7 +172,7 @@ async function createPendingAppointment(craftsmanId, customerAddress, customerEm
     return result[0].appointment_id;
 }
 
-async function getAppointments(craftsmanId) {
+async function getCraftsmanAppointments(craftsmanId) {
     const result = await sql`
     SELECT
         appointment_id,
@@ -186,6 +186,31 @@ async function getAppointments(craftsmanId) {
         craftsman_appointments
     WHERE
         user_id = ${craftsmanId};
+`;
+    return result;
+}
+
+
+async function getCustomerAppointments(user_email) {
+    const result = await sql`
+    SELECT
+        a.appointment_id,
+        a.user_id,
+        a.customer_address,
+        a.customer_email,
+        a.appointment_date,
+        a.status,
+        a.appointment_type,
+        u.lastname craftsman_lastname,
+        u.firstname craftsman_firstname,
+        u.profession,
+        u.description
+    FROM
+        craftsman_appointments a
+    JOIN
+        craftsman_detail u ON a.user_id = u.user_id
+    WHERE
+        a.customer_email = ${user_email};
 `;
     return result;
 }
@@ -222,7 +247,8 @@ export {
     getCraftsmanDetails,
     getCraftsmenWithinBuffer,
     createPendingAppointment,
-    getAppointments,
+    getCraftsmanAppointments,
+    getCustomerAppointments,
     deleteAppointment,
     validateAppointment
 }

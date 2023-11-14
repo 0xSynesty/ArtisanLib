@@ -1,75 +1,62 @@
 <script>
-    import { Badge } from "flowbite-svelte";
-    import { CheckCircleSolid, CloseSolid } from "flowbite-svelte-icons";
+    import {
+        Badge,
+        Button,
+        Table,
+        TableBody,
+        TableBodyCell,
+        TableBodyRow,
+    } from "flowbite-svelte";
+    import StatusBadge from "$lib/StatusBadge.svelte";
+    import { formatDateString } from "$lib/utils.js";
     export let data;
-    function formatDate(dateString) {
-        const options = {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        };
-        const date = new Date(dateString);
-        const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(
-            date.getMonth() + 1
-        )
-            .toString()
-            .padStart(2, "0")}/${date.getFullYear()} ${date
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${date
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
-        return formattedDate;
-    }
+
 </script>
 
 <h1 class="text-xl mb-2">Mes rendez-vous</h1>
-<div class="border rounded-lg border-slate-600">
-    {#each data.appointments as appointment}
-        <div class="relative border-b border-slate-600 h-16 text-left p-4">
-            <Badge
-                large
-                color={appointment.status === "pending"
-                    ? "yellow"
-                    : appointment.status === "accepted"
-                    ? "green"
-                    : ""}
-                class="mr-6"
-                >{appointment.status === "pending"
-                    ? "En attente"
-                    : "Validé"}</Badge
-            >
-            <span class="font-bold"
-                >{formatDate(appointment.appointment_date)}</span
-            >
-            {appointment.customer_address}
-            <span class="ml-8">{appointment.customer_email}</span>
-
-            <div class="absolute right-4 bottom-4">
-                <form method="POST" action="?/validate" class="inline">
-                    <input
-                        type="hidden"
-                        name="id"
-                        value={appointment.appointment_id}
-                    />
-                    <button type="submit">
-                        <CheckCircleSolid />
-                    </button>
-                </form>
-                <form method="POST" action="?/delete" class="inline">
-                    <input
-                        type="hidden"
-                        name="id"
-                        value={appointment.appointment_id}
-                    />
-                    <button type="submit">
-                        <CloseSolid />
-                    </button>
-                </form>
-            </div>
-        </div>
-    {/each}
-</div>
+<Table hoverable>
+    <TableBody>
+        {#each data.appointments as appointment}
+            <TableBodyRow>
+                <TableBodyCell tdClass="p-4 pl-0">
+                    <StatusBadge status={appointment.status} />
+                </TableBodyCell>
+                <TableBodyCell tdClass="font-bold mr-8">
+                    {formatDateString(appointment.appointment_date)}
+                </TableBodyCell>
+                <TableBodyCell>{appointment.customer_address}</TableBodyCell>
+                <TableBodyCell>{appointment.customer_email}</TableBodyCell>
+                <TableBodyCell tdClass="p-0"
+                    >{#if appointment.status === "pending"}
+                        <form method="POST" action="?/validate" class="inline">
+                            <input
+                                type="hidden"
+                                name="id"
+                                value={appointment.appointment_id}
+                            />
+                            <Button
+                                type="submit"
+                                class="bg-orange my-auto border-2 border-orange hover:bg-oxford hover:border-oxford"
+                                >Accepter</Button
+                            >
+                        </form>
+                    {/if}
+                </TableBodyCell>
+                <TableBodyCell tdClass="p-0">
+                    <form method="POST" action="?/delete" class="inline">
+                        <input
+                            type="hidden"
+                            name="id"
+                            value={appointment.appointment_id}
+                        />
+                        <Button
+                            type="submit"
+                            class="border-2 border-orange hover:bg-orange text-black hover:text-white dark:text-white"
+                            >{appointment.status === "pending" ? "Refuser" : "Annuler"}</Button
+                        >
+                    </form>
+                </TableBodyCell>
+            </TableBodyRow>
+        {/each}
+    </TableBody>
+</Table>
