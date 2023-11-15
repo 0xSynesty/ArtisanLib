@@ -81,11 +81,11 @@
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Mon profil professionnel</NavLi
         >
-        <NavLi
+        <!-- <NavLi
             href="/agenda"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
             >Agenda</NavLi
-        >
+        > -->
         <NavLi
             href="/craftsman/appointments"
             class="text-base rounded-none hover:border-b-2 hover:border-b-oxford dark:hover:border-b-white"
