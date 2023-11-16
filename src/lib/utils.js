@@ -12,3 +12,11 @@ export function formatDateString(dateString) {
     // Construct the formatted date string
     return `${day}/${month}/${year} à ${hours}h${minutes}`;
 }
+
+
+export const professions = [
+    { value: "serrurier", name: "Serrurier" },
+    { value: "artisan_polyvalent", name: "Artisan polyvalent" },
+    { value: "electricien", name: "Electricien" },
+    { value: "plombier", name: "Plombier" },
+];

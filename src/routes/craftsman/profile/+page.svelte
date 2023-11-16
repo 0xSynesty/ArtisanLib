@@ -3,7 +3,7 @@
     import { CheckCircleSolid } from "flowbite-svelte-icons";
     import { page } from "$app/stores";
     import Geocoder from "$lib/Geocoder.svelte";
-
+    import { professions } from "$lib/utils.js";
     import {
         Label,
         Input,
@@ -16,12 +16,6 @@
     export let form;
 
     let selected_prof;
-    const professions = [
-        { value: "serrurier", name: "Serrurier" },
-        { value: "artisan_polyvalent", name: "Artisan polyvalent" },
-        { value: "electricien", name: "Electricien" },
-        { value: "plombier", name: "Plombier" },
-    ];
 
     let address
     let addressGeometryString;

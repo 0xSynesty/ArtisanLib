@@ -172,32 +172,34 @@ async function getCustomerDetails(user_id) {
 }
 
 
-async function getCraftsmenWithinBuffer(coordsParsed) {
+async function getCraftsmenWithinBuffer(coordsParsed, profession_filter) {
+    console.log(coordsParsed, profession_filter)
     const result = await sql`
-    SELECT
-        user_id,
-        lastname,
-        firstname,
-        profession,
-        description,
-        siret,
-        address,
-        ST_AsGeoJSON(ST_Transform(address_coordinates, 4326)) as geometry,
-        ST_Distance(
-            ST_Transform(address_coordinates, 3857),
-            ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857)
-        ) as distance
-    FROM
-        craftsman_detail
-    WHERE
-        ST_DWithin(
-            ST_Transform(address_coordinates, 3857),
-            ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857),
-            5000
-        )
-    ORDER BY
-        distance;
-`
+        SELECT
+            user_id,
+            lastname,
+            firstname,
+            profession,
+            description,
+            siret,
+            address,
+            ST_AsGeoJSON(ST_Transform(address_coordinates, 4326)) as geometry,
+            ST_Distance(
+                ST_Transform(address_coordinates, 3857),
+                ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857)
+            ) as distance
+        FROM
+            craftsman_detail
+        WHERE
+            ST_DWithin(
+                ST_Transform(address_coordinates, 3857),
+                ST_Transform(ST_SetSRID(ST_Point(${coordsParsed[0]}, ${coordsParsed[1]}), 4326), 3857),
+                5000
+            )
+        ${profession_filter ? sql`AND profession = ${profession_filter}` : sql``}
+        ORDER BY
+            distance;
+    `
     return result
 }
 
