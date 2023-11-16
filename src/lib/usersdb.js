@@ -112,15 +112,65 @@ async function getCraftsmanDetails(user_id) {
     return result[0]
 }
 
-async function hasCraftsmanUpdatedDetails(user_id) {
+async function hasUserUpdatedDetails(user_id, role) {
+    let table_name = `${role}_detail`
     const result = await sql`
         SELECT user_id
-        FROM craftsman_detail
+        FROM ${sql(table_name)}
         WHERE user_id = ${user_id}
         LIMIT 1;
     `
     return result.length > 0;
 }
+
+
+async function updateCustomerDetails({ user_id, lastname, firstname, skill_level, tools, address, parsedCoords }) {
+    const result = await sql`
+    INSERT INTO customer_detail (
+        user_id,
+        lastname,
+        firstname,
+        skill_level,
+        tools,
+        address,
+        address_coordinates
+    ) VALUES (
+        ${user_id},
+        ${lastname},
+        ${firstname},
+        ${skill_level},
+        ${tools},
+        ${address},
+        ST_SetSRID(ST_Point(${parsedCoords[0]}, ${parsedCoords[1]}), 4326)
+    ) ON CONFLICT (user_id) DO UPDATE SET
+        lastname = EXCLUDED.lastname,
+        firstname = EXCLUDED.firstname,
+        skill_level = EXCLUDED.skill_level,
+        tools = EXCLUDED.tools,
+        address = EXCLUDED.address,
+        address_coordinates = ST_SetSRID(ST_Point(${parsedCoords[0]}, ${parsedCoords[1]}), 4326);
+    `
+    return result[0]
+}
+
+async function getCustomerDetails(user_id) {
+    const result = await sql`
+    SELECT
+        user_id,
+        lastname,
+        firstname,
+        skill_level,
+        tools,
+        address,
+        ST_AsGeoJSON(address_coordinates) AS address_geometry
+    FROM
+        customer_detail
+    WHERE
+        user_id = ${user_id};
+    `
+    return result[0]
+}
+
 
 async function getCraftsmenWithinBuffer(coordsParsed) {
     const result = await sql`
@@ -243,8 +293,10 @@ export {
     findUserByEmail,
     findUserById,
     updateCraftsmanDetails,
-    hasCraftsmanUpdatedDetails,
     getCraftsmanDetails,
+    updateCustomerDetails,
+    getCustomerDetails,
+    hasUserUpdatedDetails,
     getCraftsmenWithinBuffer,
     createPendingAppointment,
     getCraftsmanAppointments,

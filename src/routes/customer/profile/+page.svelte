@@ -15,12 +15,11 @@
     export let data;
     export let form;
 
-    let selected_prof;
-    const professions = [
-        { value: "serrurier", name: "Serrurier" },
-        { value: "artisan_polyvalent", name: "Artisan polyvalent" },
-        { value: "electricien", name: "Electricien" },
-        { value: "plombier", name: "Plombier" },
+    let selected_skill;
+    const skills = [
+        { value: "0", name: "Débutant" },
+        { value: "1", name: "Intérmédiaire" },
+        { value: "2", name: "Avancé"},
     ];
 
     let address
@@ -28,7 +27,7 @@
 
     if (data.details) {
         console.log(data.details)
-        selected_prof = data.details.profession;
+        selected_skill = data.details.skill_level;
         address = {
             display_name: data.details.address,
             geometry: JSON.parse(data.details.address_geometry),
@@ -64,7 +63,7 @@
     </div>
 {/if}
 <div class="relative">
-    <h1 class="mb-4 text-xl font-bold">Mon profil Artisan</h1>
+    <h1 class="mb-4 text-xl font-bold">Mon profil Client</h1>
 
     <form method="POST" use:enhance>
         <div class="grid gap-4 sm:gap-6">
@@ -89,39 +88,28 @@
                 />
             </div>
             <div>
-                <Label for="profession" class="mb-2">Profession</Label>
+                <Label for="skill_level" class="mb-2">Compétences manuelles</Label>
                 <Select
-                    items={professions}
-                    bind:value={selected_prof}
-                    name="profession"
-                    placeholder="-- Profession exercée --"
+                    items={skills}
+                    bind:value={selected_skill}
+                    name="skill_level"
+                    placeholder="-- Niveau de compétences manuelles --"
                     required
                 />
             </div>
             <div>
-                <Label for="siret" class="mb-2">Numéro SIRET</Label>
+                <Label for="siret" class="mb-2">Outils à votre disposition</Label>
                 <Input
                     type="text"
-                    name="siret"
-                    placeholder="Ex : 553 279 879 00672"
+                    name="tools"
+                    placeholder="clé à molette, marteau, tournevis cruciforme."
                     required
-                    value={data?.details?.siret}
+                    value={data?.details?.tools}
                 />
             </div>
             <div class="col-span-2">
                 <Label for="address" class="mb-2">Votre adresse</Label>
                 <Geocoder bind:address bind:addressGeometryString/>
-            </div>
-            <div class="sm:col-span-2">
-                <Label for="description" class="mb-2">Votre description</Label>
-                <Textarea
-                    id="description"
-                    placeholder="Décrivez rapidement votre parcours, vos expériences et qui vous-êtes"
-                    rows="4"
-                    name="description"
-                    value={data?.details?.description}
-                    required
-                />
             </div>
         </div>
         <div class="text-center mt-6">

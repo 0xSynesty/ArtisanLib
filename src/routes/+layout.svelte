@@ -20,7 +20,7 @@
     <Alert type="warning" class="bg-slate-200 dark:bg-slate-200 dark:text-red-800 rounded-none border-b-2" color="red">
       <InfoCircleSolid slot="icon" />
       <span class="text-base">
-        Veuillez <a href="/craftsman/profile" class="font-bold underline">compléter votre profil</a> pour pouvoir accéder à toutes les
+        Veuillez <a href="/{role}/profile" class="font-bold underline">compléter votre profil</a> pour pouvoir accéder à toutes les
         fonctionnalités du site.
       </span>
     </Alert>

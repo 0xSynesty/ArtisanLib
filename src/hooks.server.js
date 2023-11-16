@@ -1,6 +1,6 @@
 import { SPICYTHINGY } from '$env/static/private'
 import jwt from 'jsonwebtoken'
-import { findUserById, hasCraftsmanUpdatedDetails } from '$lib/usersdb'
+import { findUserById,  hasUserUpdatedDetails } from '$lib/usersdb'
 
 export async function handle ({ event, resolve }) {
     const authToken = event.cookies.get('authToken')
@@ -15,14 +15,14 @@ export async function handle ({ event, resolve }) {
                 event.locals.role = userResult.role
                 event.locals.user_id = id
 
-                if (userResult.role === 'craftsman') {
+                if (['craftmsan', 'customer'].includes(userResult.role)) {
                     if (!event.cookies.get('hasUpdatedDetails') || event.cookies.get('hasUpdatedDetails') === 'false') {
-                        const hasUpdatedDetails = await hasCraftsmanUpdatedDetails(id)
+                        const hasUpdatedDetails = await hasUserUpdatedDetails(id, userResult.role)
                         event.locals.hasUpdatedDetails = hasUpdatedDetails
                         event.cookies.set('hasUpdatedDetails', hasUpdatedDetails, { maxAge: 60 * 60 * 2})
                     } else {
-                        // console.log("cookie found, not checking details")
-                        // event.locals.hasUpdatedDetails = true
+                        console.log("cookie found, not checking details")
+                        event.locals.hasUpdatedDetails = true
                     }
                 } else {
                     event.locals.hasUpdatedDetails = true
