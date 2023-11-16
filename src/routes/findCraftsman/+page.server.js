@@ -13,7 +13,7 @@ export const load = async ({ locals, url }) => {
   if (!locals.user) {
     throw redirect(302, '/')
   }
-  let coordsStr = "2.344386, 48.860175"
+  let coordsStr = "2.420317180618753, 48.85162094533567"
   let coordsParsed
   if (url.searchParams.get('coordinates')) {
     coordsParsed = JSON.parse(url.searchParams.get('coordinates')).coordinates
