@@ -21,7 +21,7 @@ export async function handle ({ event, resolve }) {
                         event.locals.hasUpdatedDetails = hasUpdatedDetails
                         event.cookies.set('hasUpdatedDetails', hasUpdatedDetails, { maxAge: 60 * 60 * 2})
                     } else {
-                        console.log("cookie found, not checking details")
+                        // cookie found, not checking details
                         event.locals.hasUpdatedDetails = true
                     }
                 } else {
