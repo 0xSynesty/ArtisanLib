@@ -146,7 +146,7 @@
                     >{craftsman.professionDisplay}</span
                 >
                 <span class="text-lg block"
-                    >{craftsman.firstname} {craftsman.lastname}</span
+                    >{craftsman.firstname}{" "}{craftsman.lastname}</span
                 >
                 <span class="block text-gray-500 dark:text-gray-400"
                     >{craftsman.address}</span
