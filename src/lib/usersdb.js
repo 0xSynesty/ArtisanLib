@@ -204,7 +204,8 @@ async function getCraftsmenWithinBuffer(coordsParsed, profession_filter) {
 }
 
 
-async function createPendingAppointment(craftsmanId, customerAddress, customerEmail, appointmentDate, appointmentType) {
+async function createPendingAppointment(craftsmanId, customerAddress, customerEmail, appointmentDate, appointmentTime, appointmentType) {
+    const dateTimeString = `${appointmentDate} ${appointmentTime}:00`;
     const result = await sql`
     INSERT INTO craftsman_appointments (
         user_id,
@@ -216,7 +217,7 @@ async function createPendingAppointment(craftsmanId, customerAddress, customerEm
         ${craftsmanId},
         ${customerAddress},
         ${customerEmail},
-        ${appointmentDate},
+        ${dateTimeString},
         ${appointmentType}
     )
         RETURNING appointment_id;

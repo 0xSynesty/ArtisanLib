@@ -1,5 +1,5 @@
-import { getCraftsmanDetails } from '$lib/usersdb.js'
-import { fail, redirect } from '@sveltejs/kit'
+import { getCraftsmanDetails, getCustomerDetails } from '$lib/usersdb.js'
+import { redirect } from '@sveltejs/kit'
 import { createPendingAppointment } from '$lib/usersdb.js'
 
 export const load = async ({ locals, url }) => {
@@ -10,8 +10,11 @@ export const load = async ({ locals, url }) => {
     const craftsmanId = url.searchParams.get('craftsmanId')
     const address = url.searchParams.get('address')
     const craftsmanDetails = await getCraftsmanDetails(craftsmanId)
+    const customerDetails = await getCustomerDetails(locals.user_id)
+    console.log(locals)
     return {
       craftsmanDetails,
+      customerAddress: customerDetails.address,
       address
     }
   }
@@ -23,10 +26,11 @@ export const load = async ({ locals, url }) => {
         const customerEmailAddress = locals.user
 
         const appointmentDate = data.get('date')
+        const appointmentTime = data.get('time')
         const customerAddress = data.get('address')
         const appointmentType = data.get('appointmentType')
 
-        const res = await createPendingAppointment(craftsmanUserId, customerAddress, customerEmailAddress, appointmentDate, appointmentType)
+        await createPendingAppointment(craftsmanUserId, customerAddress, customerEmailAddress, appointmentDate, appointmentTime, appointmentType)
         throw redirect(302, "/appointmentConfirmed")
     }
 }

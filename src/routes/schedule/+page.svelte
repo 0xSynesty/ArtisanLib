@@ -4,6 +4,8 @@
     import { HomeSolid, MobilePhoneSolid, ArrowRightOutline} from 'flowbite-svelte-icons';
     import { enhance } from "$app/forms";
 
+    console.log(data)
+
     let appointmentType = "home"
 </script>
 <div class="text-center">
@@ -16,8 +18,8 @@
     <div class="space-y-4 md:space-y-6 sm:p-8">
         <form class="flex flex-col space-y-6" method="POST" use:enhance>
         <Label class="space-y-2">
-            <span>Votre adresse</span>
-            <Input type="input" name="address" value={data.address} required />
+            <span class="text-lg">Votre adresse</span>
+            <Input type="input" name="address" value={data.customerAddress} class="w-2/3 m-auto border-2 border-gray-200" required/>
         </Label>
         <p class="mb-5 text-lg font-medium text-gray-900 dark:text-white">Type de prestation</p>
         <div class="grid gap-6 md:grid-cols-2 justify-center m-auto">
@@ -41,14 +43,10 @@
         </Radio>
         </div>
           <label for="date">Date de l'intervention souhaitée</label>
-          <input type="date" name="date" class="rounded-lg dark:bg-gray-700 border-none w-72 m-auto" />
-        <Button type="submit" class="bg-orange w-80 m-auto">Prendre rendez-vous</Button>
-
-          
+          <input type="date" name="date" class="rounded-lg dark:bg-gray-700 w-72 m-auto" />
+          <label for="time">Heure</label>
+          <input type="time" name="time" class="rounded-lg dark:bg-gray-700 w-72 m-auto" />
+        <Button type="submit" class="bg-orange w-80 m-auto">Prendre rendez-vous</Button>          
         </form>
     </div>
 </div>
-
-<svelte:head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
-</svelte:head>

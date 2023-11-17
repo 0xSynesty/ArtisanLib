@@ -24,7 +24,6 @@ export const load = async ({ locals, url }) => {
   if (url.searchParams.get('profession')) {
     profession_filter = url.searchParams.get('profession')
   }
-  console.log("coords", coordsParsed)
   const craftsmen = await getCraftsmenWithinBuffer(coordsParsed, profession_filter)
   craftsmen.forEach(craftsman => {
     craftsman.professionDisplay = craftsmanTypes[craftsman.profession]
