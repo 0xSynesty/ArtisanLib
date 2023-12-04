@@ -24,8 +24,9 @@
                 <TableBodyCell tdClass="font-bold mr-8">
                     {formatDateString(appointment.appointment_date)}
                 </TableBodyCell>
-                <TableBodyCell>{appointment.customer_address}</TableBodyCell>
+                <TableBodyCell tdClass="w-[220px]">{appointment.customer_address}</TableBodyCell>
                 <TableBodyCell>{appointment.customer_email}</TableBodyCell>
+                <TableBodyCell tdClass="">{appointment.description}</TableBodyCell>
                 <TableBodyCell tdClass="p-0"
                     >{#if appointment.status === "pending"}
                         <form method="POST" action="?/validate" class="inline">

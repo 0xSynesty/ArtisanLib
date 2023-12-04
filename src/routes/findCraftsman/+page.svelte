@@ -15,7 +15,7 @@
     let addressGeometryString = false;
     onMount(() => {
         if (browser) {
-            map = L.map(mapElement).setView(data.coordsParsed.reverse(), 12);
+            map = L.map(mapElement).setView(data.coordsParsed.reverse(), 15);
             L.tileLayer(
                 "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                 {

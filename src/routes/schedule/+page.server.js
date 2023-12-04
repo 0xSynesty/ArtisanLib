@@ -29,8 +29,9 @@ export const load = async ({ locals, url }) => {
         const appointmentTime = data.get('time')
         const customerAddress = data.get('address')
         const appointmentType = data.get('appointmentType')
+        const description = data.get('description')
 
-        await createPendingAppointment(craftsmanUserId, customerAddress, customerEmailAddress, appointmentDate, appointmentTime, appointmentType)
+        await createPendingAppointment(craftsmanUserId, customerAddress, customerEmailAddress, appointmentDate, appointmentTime, appointmentType, description)
         throw redirect(302, "/appointmentConfirmed")
     }
 }

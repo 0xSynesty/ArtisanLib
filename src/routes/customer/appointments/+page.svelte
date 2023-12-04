@@ -29,9 +29,11 @@
             {/if}
         </div>
         Le <strong>{formatDateString(appointment.appointment_date)}</strong>
-        <div class="text-left">
-            <span class="block">Artisan : <strong>{appointment.craftsman_lastname}</strong> {appointment.craftsman_firstname}</span>
-            <span>Type de prestation : <strong>{typePrestations[appointment.profession]}</strong></span>
+        <div class="text-left leading-8">
+            <span class="block"><strong>Artisan : </strong>{appointment.craftsman_lastname} {appointment.craftsman_firstname}</span>
+            <span><strong>Type de prestation :</strong> {typePrestations[appointment.profession]}</span>
+            <span class="block font-bold">Description du problème :</span>
+            <span class="block">{appointment.description}</span>
         </div>
     </div>
     {/each}

@@ -204,7 +204,7 @@ async function getCraftsmenWithinBuffer(coordsParsed, profession_filter) {
 }
 
 
-async function createPendingAppointment(craftsmanId, customerAddress, customerEmail, appointmentDate, appointmentTime, appointmentType) {
+async function createPendingAppointment(craftsmanId, customerAddress, customerEmail, appointmentDate, appointmentTime, appointmentType, description) {
     const dateTimeString = `${appointmentDate} ${appointmentTime}:00`;
     const result = await sql`
     INSERT INTO craftsman_appointments (
@@ -212,13 +212,15 @@ async function createPendingAppointment(craftsmanId, customerAddress, customerEm
         customer_address,
         customer_email,
         appointment_date,
-        appointment_type
+        appointment_type,
+        description
     ) VALUES (
         ${craftsmanId},
         ${customerAddress},
         ${customerEmail},
         ${dateTimeString},
-        ${appointmentType}
+        ${appointmentType},
+        ${description}
     )
         RETURNING appointment_id;
     `;
@@ -234,7 +236,8 @@ async function getCraftsmanAppointments(craftsmanId) {
         customer_email,
         appointment_date,
         status,
-        appointment_type
+        appointment_type,
+        description
     FROM
         craftsman_appointments
     WHERE
@@ -253,11 +256,12 @@ async function getCustomerAppointments(user_email) {
         a.customer_email,
         a.appointment_date,
         a.status,
+        a.description,
         a.appointment_type,
         u.lastname craftsman_lastname,
         u.firstname craftsman_firstname,
         u.profession,
-        u.description
+        u.description craftsman_description
     FROM
         craftsman_appointments a
     JOIN

@@ -1,16 +1,21 @@
 <script>
     export let data
-    import { Input, Label, Radio, Button, Datepicker} from "flowbite-svelte";
-    import { HomeSolid, MobilePhoneSolid, ArrowRightOutline} from 'flowbite-svelte-icons';
+    import { Input, Label, Radio, Button, Textarea} from "flowbite-svelte";
+    import { HomeSolid, MobilePhoneSolid } from 'flowbite-svelte-icons';
     import { enhance } from "$app/forms";
 
     console.log(data)
-
+    const craftsmanTypes = {
+  "plombier": "Plombier",
+  "electricien": "Électricien",
+  "serrurier": "Serrurier",
+  "artisan_polyvalent": "Polyvalent"
+}
     let appointmentType = "home"
 </script>
 <div class="text-center">
     <h1 class="text-xl font-bold mb-2">
-        Prendre rendez-vous avec {data.craftsmanDetails.firstname} {data.craftsmanDetails.lastname}
+        Prendre rendez-vous avec {data.craftsmanDetails.firstname} {data.craftsmanDetails.lastname} - {craftsmanTypes[data.craftsmanDetails.profession]}
     </h1>
     <p class="italic text-gray-400">
         "{data.craftsmanDetails.description}""
@@ -46,7 +51,16 @@
           <input type="date" name="date" class="rounded-lg dark:bg-gray-700 w-72 m-auto" />
           <label for="time">Heure</label>
           <input type="time" name="time" class="rounded-lg dark:bg-gray-700 w-72 m-auto" />
-        <Button type="submit" class="bg-orange w-80 m-auto">Prendre rendez-vous</Button>          
+          <Label for="description" class="mb-2">Description du problème</Label>
+          <Textarea
+              id="description"
+              placeholder="Décrivez le problème que vous rencontrez"
+              rows="4"
+              name="description"
+              required
+              class="w-1/2 m-auto"
+          />
+        <Button type="submit" class="bg-orange w-80 m-auto">Prendre rendez-vous</Button>
         </form>
     </div>
 </div>
