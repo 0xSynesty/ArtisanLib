@@ -21,7 +21,6 @@
     let addressGeometryString;
 
     if (data.details) {
-        console.log(data.details)
         selected_prof = data.details.profession;
         address = {
             display_name: data.details.address,
@@ -57,7 +56,7 @@
         <span class="block sm:inline">{form.error}</span>
     </div>
 {/if}
-<div class="relative">
+<div class="relative w-full lg:w-2/3 m-auto">
     <h1 class="mb-4 text-xl font-bold">Mon profil Artisan</h1>
 
     <form method="POST" use:enhance>

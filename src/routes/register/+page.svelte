@@ -6,7 +6,7 @@
     let role = "particulier";
 </script>
 
-<Section name="register">
+<Section name="register" sectionClass="lg:w-2/3 m-auto">
     <Register>
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             {#if form?.error}

@@ -9,6 +9,12 @@
   import logo from '$lib/images/logo.png'
   import NavMenu from "$lib/NavMenu.svelte";
   export let data
+  import '@beyonk/gdpr-cookie-consent-banner/banner.css' // optional, you can also define your own styles
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+
+  function initAnalytics () {
+    // do something with segment.io or google analytics etc
+  }
 
   $: user = data?.user
   $: role = data?.role
@@ -41,7 +47,7 @@
     <NavMenu {hidden} {toggle} {user} {role}/>
   </Navbar>
 
-  <div class="content px-20 py-6 dark:text-white">
+  <div class="content lg:px-20 py-6 dark:text-white">
     <slot class="relative" />
   </div>
 
@@ -81,6 +87,33 @@
     </div>
   </footer>
 </div>
+
+<GdprBanner
+choices={{
+  necessary: {
+      label: "Cookies nécessaires",
+      description: "Used for cookie control. Can't be turned off.",
+      value: true
+  },
+  tracking: false,
+  analytics: {
+      label: "Cookies analytiques",
+      description: "Utilisé pour Google Analytics un outil de Google qui permet de savoir ce que fait l'utilisateur et de vous proposer une meilleure expérience.",
+      value: true
+  },
+  marketing: false
+}}
+canRejectCookies={true}
+acceptLabel="Accepter"
+rejectLabel="Refuser tout"
+settingsLabel="Préférences"
+closeLabel="Fermer la fenêtre"
+editLabel="Modifier les préférences"
+cookieName="foo" heading="Information RGPD" description="<p class='text-sm'>Nous prenons la confidentialité de vos données très au sérieux et utilisons des mesures de sécurité avancées pour protéger vos informations.
+
+Les données que nous collectons et enregistrons servent uniquement à des fins internes. Ces informations nous aident à améliorer nos services et à vous offrir une meilleure expérience.
+
+Nous ne partageons, ne vendons, ni ne communiquons vos données personnelles à des tiers.<p>" on:analytics={initAnalytics} />
 
 <style lang="postcss">
   footer {

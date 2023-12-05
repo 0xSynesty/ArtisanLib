@@ -36,8 +36,9 @@
             >
         </form>
     {/if}
-    <NavHamburger on:click={toggle} />
+    
 </div>
+<NavHamburger on:click={toggle} />
 {#if !user}
     <NavUl {hidden} class="order-1 max-h-14">
         <NavLi

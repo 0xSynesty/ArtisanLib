@@ -10,8 +10,6 @@
         electricien: "Electricité",
         plombier: "Plomberie"
     }
-
-    console.log(data.appointments)
 </script>
 
 <h1 class="text-xl mb-2 text-center">Mes rendez-vous</h1>

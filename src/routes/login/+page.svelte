@@ -22,7 +22,7 @@
     </div>
 {/if}
 
-<Section name="register">
+<Section name="register" sectionClass="lg:w-2/3 m-auto">
     <Register href="/">
         {#if form?.error}
             <div

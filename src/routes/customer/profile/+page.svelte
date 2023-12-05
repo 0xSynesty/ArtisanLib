@@ -62,7 +62,7 @@
         <span class="block sm:inline">{form.error}</span>
     </div>
 {/if}
-<div class="relative">
+<div class="relative lg:w-2/3 m-auto">
     <h1 class="mb-4 text-xl font-bold">Mon profil Client</h1>
 
     <form method="POST" use:enhance>
